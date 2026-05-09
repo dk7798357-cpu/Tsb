@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>DELOGO. — AI Video Logo Eraser</title>
-<meta name="description" content="Erase any logo from any video. Free, no signup, no watermark." />
+<title>QUIRKCUT AI — AI Video Logo Eraser (made by dvi)</title>
+<meta name="description" content="QUIRKCUT AI — Erase any logo from any video. Free, no signup, no watermark. Made by DVI." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -24,11 +24,9 @@
   .font-display{font-family:"Outfit",sans-serif}
   .font-mono{font-family:"JetBrains Mono",ui-monospace,monospace}
 
-  /* Marquee */
   @keyframes marquee{0%{transform:translate3d(0,0,0)}100%{transform:translate3d(-50%,0,0)}}
   .marquee-track{display:inline-flex;gap:4rem;animation:marquee 40s linear infinite;white-space:nowrap}
 
-  /* Scanning line */
   @keyframes scanline{0%{top:0%}100%{top:100%}}
   .scanline{position:absolute;left:0;right:0;height:2px;
     background:linear-gradient(90deg,transparent,var(--brand) 50%,transparent);
@@ -55,13 +53,13 @@
 </head>
 <body class="bg-white text-[#0A0A0A]">
 
-<!-- ============== HEADER ============== -->
+<!-- HEADER -->
 <header class="sticky top-0 z-40 backdrop-blur-xl bg-white/75 border-b border-slate-200">
   <div class="max-w-7xl mx-auto px-6 lg:px-10 h-16 flex items-center justify-between">
     <a href="#top" class="flex items-center gap-2">
       <span class="w-8 h-8 bg-[#002FA7] flex items-center justify-center text-white font-bold">⌫</span>
-      <span class="font-display text-lg font-black tracking-tighter">DELOGO<span class="text-[#002FA7]">.</span></span>
-      <span class="font-mono text-[10px] tracking-[0.25em] uppercase text-slate-500 ml-2 hidden sm:block">v1.0 / free</span>
+      <span class="font-display text-lg font-black tracking-tighter">QUIRKCUT<span class="text-[#002FA7]"> AI</span></span>
+      <span class="font-mono text-[10px] tracking-[0.25em] uppercase text-slate-500 ml-2 hidden sm:block">made by dvi</span>
     </a>
     <nav class="flex items-center gap-6 text-sm">
       <a href="#tool" class="hidden sm:block text-slate-700 hover:text-[#002FA7]">Eraser</a>
@@ -72,7 +70,7 @@
   </div>
 </header>
 
-<!-- ============== HERO ============== -->
+<!-- HERO -->
 <section id="top" class="relative overflow-hidden border-b border-slate-200">
   <div class="absolute inset-x-0 top-0 pt-6 select-none pointer-events-none overflow-hidden">
     <div class="marquee-track font-display text-[18vw] leading-none font-black tracking-tighter text-slate-100">
@@ -80,8 +78,7 @@
       <span>NO LOGO. NO WATERMARK. NO SIGN-UP.</span>
     </div>
   </div>
-
-    <div class="relative max-w-7xl mx-auto px-6 lg:px-10 pt-24 pb-20 lg:pt-36 lg:pb-28">
+  <div class="relative max-w-7xl mx-auto px-6 lg:px-10 pt-24 pb-20 lg:pt-36 lg:pb-28">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
       <div class="lg:col-span-8">
         <div class="flex items-center gap-3 mb-6">
@@ -101,18 +98,9 @@
           <a href="#how"  class="btn-sharp inline-flex items-center gap-2 border border-[#0A0A0A] hover:bg-[#0A0A0A] hover:text-white px-7 py-4 font-semibold">See how it works</a>
         </div>
         <div class="mt-12 grid grid-cols-3 max-w-lg gap-4">
-          <div class="border-l-2 border-[#002FA7] pl-3">
-            <div class="font-display text-2xl font-black mt-1">&lt; 60s</div>
-            <div class="text-xs text-slate-500 mt-0.5">Avg. process</div>
-          </div>
-          <div class="border-l-2 border-[#002FA7] pl-3">
-            <div class="font-display text-2xl font-black mt-1">100%</div>
-            <div class="text-xs text-slate-500 mt-0.5">Private</div>
-          </div>
-          <div class="border-l-2 border-[#002FA7] pl-3">
-            <div class="font-display text-2xl font-black mt-1">HD/4K</div>
-            <div class="text-xs text-slate-500 mt-0.5">Output</div>
-          </div>
+          <div class="border-l-2 border-[#002FA7] pl-3"><div class="font-display text-2xl font-black mt-1">&lt; 60s</div><div class="text-xs text-slate-500 mt-0.5">Avg. process</div></div>
+          <div class="border-l-2 border-[#002FA7] pl-3"><div class="font-display text-2xl font-black mt-1">100%</div><div class="text-xs text-slate-500 mt-0.5">Private</div></div>
+          <div class="border-l-2 border-[#002FA7] pl-3"><div class="font-display text-2xl font-black mt-1">HD/4K</div><div class="text-xs text-slate-500 mt-0.5">Output</div></div>
         </div>
       </div>
       <div class="lg:col-span-4 lg:pt-2">
@@ -127,7 +115,7 @@
           </div>
           <ul class="p-5 space-y-3 font-mono text-xs">
             <li class="flex justify-between"><span class="text-slate-500">format</span><span>mp4 / mov / webm / mkv</span></li>
-            <li class="flex justify-between"><span class="text-slate-500">max_size</span><span>200 MB</span></li>
+            <li class="flex justify-between"><span class="text-slate-500">max_size</span><span>500 MB</span></li>
             <li class="flex justify-between"><span class="text-slate-500">methods</span><span>delogo · blur · pixelate</span></li>
             <li class="flex justify-between"><span class="text-slate-500">output</span><span>H.264 mp4 — faststart</span></li>
             <li class="flex justify-between"><span class="text-slate-500">auth</span><span>none</span></li>
@@ -140,7 +128,7 @@
   </div>
 </section>
 
-<!-- ============== TOOL ============== -->
+<!-- TOOL -->
 <section id="tool" class="border-b border-slate-200 bg-white">
   <div class="max-w-7xl mx-auto px-6 lg:px-10 py-20 lg:py-28">
     <div class="flex items-center gap-3 mb-3">
@@ -158,14 +146,13 @@
     </ol>
 
     <div class="mt-8 border border-[#0A0A0A] bg-white">
-      <!-- Upload View -->
       <div id="view-upload" class="p-6 lg:p-12">
         <div id="dropzone" class="dropzone cursor-pointer border-2 border-dashed border-slate-300 px-6 py-20 lg:py-28 flex flex-col items-center justify-center text-center">
           <input id="fileInput" type="file" accept="video/*" hidden />
           <div id="uploadIdle">
             <div class="text-4xl text-[#002FA7]">⬆</div>
             <p class="mt-5 font-display text-2xl lg:text-3xl font-black tracking-tighter">Drop a video here</p>
-            <p class="mt-2 text-slate-500">or click to browse — mp4, mov, webm, mkv up to 200MB</p>
+            <p class="mt-2 text-slate-500">or click to browse — mp4, mov, webm, mkv up to 500MB</p>
             <button type="button" class="btn-sharp mt-7 inline-flex items-center gap-2 bg-[#0A0A0A] hover:bg-[#002FA7] text-white px-6 py-3 font-semibold">Choose video</button>
           </div>
           <div id="uploadBusy" hidden>
@@ -174,10 +161,9 @@
             <div class="w-80 max-w-full h-1 bg-slate-200 mt-4"><div id="upBar" class="h-full bg-[#002FA7]" style="width:0%"></div></div>
           </div>
         </div>
-        <p class="mt-4 font-mono text-[10px] uppercase tracking-[0.25em] text-slate-500">↳ Files are processed on our server, then auto-purged.</p>
+<p class="mt-4 font-mono text-[10px] uppercase tracking-[0.25em] text-slate-500">↳ Files are processed on our server, then auto-purged.</p>
       </div>
 
-      <!-- Select View -->
       <div id="view-select" hidden class="p-6 lg:p-10">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
           <div class="lg:col-span-8">
@@ -214,7 +200,6 @@
         </div>
       </div>
 
-      <!-- Processing View -->
       <div id="view-processing" hidden class="p-6 lg:p-12">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
           <div class="lg:col-span-8">
@@ -230,9 +215,9 @@
             <p class="text-slate-600 mt-3">FFmpeg is reconstructing pixels. Hang tight — usually under a minute.</p>
           </div>
         </div>
-            </div>
+      </div>
 
-         <!-- Result View -->
+      
       <div id="view-result" hidden class="p-6 lg:p-12">
         <div class="flex items-center gap-3 mb-6">
           <span class="text-2xl text-[#002FA7]">✓</span>
@@ -257,7 +242,7 @@
   </div>
 </section>
 
-<!-- ============== HOW IT WORKS ============== -->
+<!-- HOW -->
 <section id="how" class="border-b border-slate-200 bg-[#F8F9FA]">
   <div class="max-w-7xl mx-auto px-6 lg:px-10 py-20 lg:py-28">
     <div class="flex items-center gap-3 mb-3"><span class="section-index">003 / Process</span><span class="h-px w-16 bg-slate-300"></span></div>
@@ -267,7 +252,7 @@
         <p class="mt-5 max-w-md text-slate-600">No editing skills, no plugins, no installs.</p>
       </div>
       <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div class="border border-[#0A0A0A] bg-white p-6"><span class="font-mono text-xs text-[#002FA7]">01</span><h3 class="font-display text-xl font-bold mt-8">Drop your video</h3><p class="text-sm text-slate-600 mt-2">Upload mp4/mov/webm up to 200MB.</p></div>
+        <div class="border border-[#0A0A0A] bg-white p-6"><span class="font-mono text-xs text-[#002FA7]">01</span><h3 class="font-display text-xl font-bold mt-8">Drop your video</h3><p class="text-sm text-slate-600 mt-2">Upload mp4/mov/webm up to 500MB.</p></div>
         <div class="border border-[#0A0A0A] bg-white p-6"><span class="font-mono text-xs text-[#002FA7]">02</span><h3 class="font-display text-xl font-bold mt-8">Mark the logo</h3><p class="text-sm text-slate-600 mt-2">Click and drag a box over it.</p></div>
         <div class="border border-[#0A0A0A] bg-white p-6"><span class="font-mono text-xs text-[#002FA7]">03</span><h3 class="font-display text-xl font-bold mt-8">Get clean output</h3><p class="text-sm text-slate-600 mt-2">Download the cleaned mp4 instantly.</p></div>
       </div>
@@ -275,7 +260,7 @@
   </div>
 </section>
 
-<!-- ============== FEATURES ============== -->
+<!-- FEATURES -->
 <section id="features" class="border-b border-slate-200">
   <div class="max-w-7xl mx-auto px-6 lg:px-10 py-20 lg:py-28">
     <div class="flex items-center gap-3 mb-3"><span class="section-index">004 / Why</span><span class="h-px w-16 bg-slate-300"></span></div>
@@ -291,7 +276,7 @@
   </div>
 </section>
 
-<!-- ============== FAQ ============== -->
+<!-- FAQ -->
 <section id="faq" class="border-b border-slate-200">
   <div class="max-w-7xl mx-auto px-6 lg:px-10 py-20 lg:py-28">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
@@ -299,14 +284,12 @@
         <div class="flex items-center gap-3 mb-3"><span class="section-index">006 / FAQ</span><span class="h-px w-16 bg-slate-300"></span></div>
         <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-black tracking-tighter">Stuff you'll<br/>probably ask.</h2>
       </div>
-      <div class="lg:col-span-8 border-t border-slate-200" id="faqList">
-        <!-- populated by JS -->
-      </div>
+      <div class="lg:col-span-8 border-t border-slate-200" id="faqList"></div>
     </div>
   </div>
 </section>
 
-<!-- ============== FOOTER ============== -->
+<!-- FOOTER -->
 <footer class="bg-slate-50 border-t border-slate-200">
   <div class="max-w-7xl mx-auto px-6 lg:px-10 pt-24 pb-12">
     <h2 class="font-display text-5xl sm:text-6xl lg:text-8xl font-black tracking-tighter leading-[0.85]">
@@ -314,23 +297,21 @@
     </h2>
     <a href="#tool" class="btn-sharp mt-10 inline-flex bg-[#002FA7] hover:bg-[#00227A] text-white px-8 py-4 font-semibold">Start now — free</a>
     <div class="mt-20 pt-6 border-t border-slate-200 flex flex-wrap items-center justify-between gap-4 font-mono text-[11px] uppercase tracking-[0.2em] text-slate-500">
-      <span><b class="text-[#0A0A0A]">DELOGO.</b> — ai video logo eraser</span>
+      <span><b class="text-[#0A0A0A]">QUIRKCUT AI</b> — made by dvi · ai video logo eraser</span>
       <span>© 2026 · v1.0 · made with ffmpeg</span>
     </div>
-    </div>
+  </div>
 </footer>
 
 <script>
-/* ===== CONFIG ===== */
-const API_BASE = ""; // <-- e.g. "https://your-backend.com"  (leave "" to disable network calls)
+const API_BASE = "https://webm-1.preview.emergentagent.com";
 
-/* ===== State ===== */
 let video = null, region = null, method = "delogo", resultId = null;
 const $ = id => document.getElementById(id);
 const views = ["upload","select","processing","result"];
 function go(step){
   views.forEach(v => $("view-"+v).hidden = (v !== step));
-  document.querySelectorAll("#stepper li").forEach((li,i)=>{
+  document.querySelectorAll("#stepper li").forEach((li)=>{
     const s = li.dataset.step;
     li.className = "px-4 py-3 border-r last:border-r-0 border-slate-200 font-mono text-[11px] uppercase tracking-[0.2em] " +
       (s===step ? "bg-[#002FA7] text-white" : (views.indexOf(s)<views.indexOf(step) ? "bg-slate-50 text-slate-700" : "bg-white text-slate-400"));
@@ -338,10 +319,9 @@ function go(step){
 }
 go("upload");
 
-/* ===== FAQ ===== */
 const QA = [
   ["Is this really free?","Yes. No watermarks, no email, no upgrade prompts."],
-  ["What's the maximum file size?","200MB per upload."],
+  ["What's the maximum file size?","500MB per upload."],
   ["Do you store my files?","No, files auto-purge after processing."],
   ["delogo vs blur vs pixelate?","Delogo reconstructs from neighbours, blur is gaussian, pixelate is mosaic."],
   ["Moving logos?","Static positions only for now. Tracking is on the roadmap."],
@@ -361,7 +341,6 @@ document.querySelectorAll(".faqQ").forEach(btn=>btn.addEventListener("click",()=
   const t = document.querySelector(`[data-a="${i}"]`); t.hidden = !t.hidden;
 }));
 
-/* ===== Upload ===== */
 const dz = $("dropzone"), fi = $("fileInput");
 dz.addEventListener("click", ()=>fi.click());
 dz.addEventListener("dragover", e=>{e.preventDefault();dz.classList.add("dragging")});
@@ -372,15 +351,17 @@ fi.addEventListener("change", e=>onFile(e.target.files[0]));
 async function onFile(file){
   if(!file) return;
   if(!/^video\//.test(file.type) && !/\.(mp4|mov|webm|mkv|m4v|avi)$/i.test(file.name)) return alert("Pick a video file.");
-  if(file.size > 200*1024*1024) return alert("Max 200MB.");
-  if(!API_BASE){ alert("Set API_BASE in <script> to your backend URL to use the eraser."); return; }
+  if(file.size > 500*1024*1024) return alert("Max 500MB.");
   $("uploadIdle").hidden = true; $("uploadBusy").hidden = false;
   const fd = new FormData(); fd.append("file", file);
   try{
     const xhr = new XMLHttpRequest();
-    xhr.upload.onprogress = e => { if(e.lengthComputable){ const p = Math.round(e.loaded/e.total*100); $("upPct").textContent=p; $("upBar").style.width=p+"%"; }};
+    xhr.upload.onprogress = e => { if(e.lengthComputable){ const p = Math.round(e.loaded/e.total*100); $("upPct").textContent=p; $("upBar").style.width=p+"%"; } };
     const res = await new Promise((resolve,reject)=>{
-      xhr.onload = ()=> xhr.status<300 ? resolve(JSON.parse(xhr.responseText)) : reject(JSON.parse(xhr.responseText).detail || "Upload failed");
+      xhr.onload = ()=> {
+        if(xhr.status<300){ try{ resolve(JSON.parse(xhr.responseText)); }catch(_){ reject("Bad response"); } }
+        else { try{ reject(JSON.parse(xhr.responseText).detail || "Upload failed"); }catch(_){ reject("Upload failed ("+xhr.status+")"); } }
+      };
       xhr.onerror = ()=> reject("Network error");
       xhr.open("POST", API_BASE+"/api/video/upload"); xhr.send(fd);
     });
@@ -388,7 +369,6 @@ async function onFile(file){
   }catch(err){ alert(err); $("uploadIdle").hidden=false; $("uploadBusy").hidden=true; }
 }
 
-/* ===== Select region ===== */
 function openSelect(){
   $("thumb").src = `${API_BASE}/api/video/thumbnail/${video.video_id}`;
   $("canvasWrap").style.aspectRatio = `${video.width}/${video.height}`;
@@ -398,10 +378,10 @@ function openSelect(){
   $("metaName").textContent = video.filename;
   $("selectionBox").hidden = true; $("selectionHint").hidden = false;
   go("select");
-  }
+}
 let drawing=false, origin=null, box=null;
 const wrap = $("canvasWrap"), sel = $("selectionBox");
-function pt(e){ const r=wrap.getBoundingClientRect(); const t=e.touches?.[0]||e;
+function pt(e){ const r=wrap.getBoundingClientRect(); const t=(e.touches&&e.touches[0])||e;
   return { x: Math.max(0,Math.min(t.clientX-r.left, r.width)), y: Math.max(0,Math.min(t.clientY-r.top, r.height)) }; }
 function setBox(b){ box=b; sel.style.left=b.x+"px"; sel.style.top=b.y+"px"; sel.style.width=b.w+"px"; sel.style.height=b.h+"px"; sel.hidden=false; $("selectionHint").hidden=true; }
 wrap.addEventListener("mousedown", e=>{drawing=true; origin=pt(e); setBox({x:origin.x,y:origin.y,w:0,h:0});});
@@ -422,8 +402,9 @@ $("backBtn").addEventListener("click", ()=>{ video=null; box=null; fi.value=""; 
 
 $("eraseBtn").addEventListener("click", async ()=>{
   if(!box || box.w<8 || box.h<8) return alert("Draw a larger box first.");
-  const scale = video.width / wrap.clientWidth;
-  region = { x:Math.round(box.x*scale), y:Math.round(box.y*scale), w:Math.round(box.w*scale), h:Math.round(box.h*scale) };
+  const scaleX = video.width / wrap.clientWidth;
+  const scaleY = video.height / wrap.clientHeight;
+  region = { x:Math.round(box.x*scaleX), y:Math.round(box.y*scaleY), w:Math.round(box.w*scaleX), h:Math.round(box.h*scaleY) };
   $("procThumb").src = $("thumb").src;
   $("procWrap").style.aspectRatio = `${video.width}/${video.height}`;
   $("procRegion").style.left = (region.x/video.width*100)+"%";
@@ -431,7 +412,7 @@ $("eraseBtn").addEventListener("click", async ()=>{
   $("procRegion").style.width = (region.w/video.width*100)+"%";
   $("procRegion").style.height = (region.h/video.height*100)+"%";
   go("processing");
-  try{
+try{
     const res = await fetch(API_BASE+"/api/video/process",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({video_id:video.video_id,...region,method})});
     if(!res.ok) throw (await res.json()).detail || "Failed";
     const data = await res.json();
@@ -447,4 +428,3 @@ $("resetBtn").addEventListener("click", ()=>{ video=null; region=null; resultId=
 </script>
 </body>
 </html>
-}
