@@ -1,7 +1,450 @@
-<!DOCTYPE html>
-<html>
-<head><title>BIGBEAMERS</title></head>
-<body>
-<div id="root"></div>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>DELOGO. — AI Video Logo Eraser</title>
+<meta name="description" content="Erase any logo from any video. Free, no signup, no watermark." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root{
+    --brand:#002FA7; --brand-hover:#00227A;
+    --accent-red:#FF3B30; --accent-yellow:#FFCC00;
+    --ink:#0A0A0A; --paper:#fff; --paper-2:#F8F9FA; --paper-3:#F1F5F9;
+    --border:#E2E8F0;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--paper);color:var(--ink);
+    font-family:"IBM Plex Sans",system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+  ::selection{background:var(--brand);color:#fff}
+  .font-display{font-family:"Outfit",sans-serif}
+  .font-mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+
+  /* Marquee */
+  @keyframes marquee{0%{transform:translate3d(0,0,0)}100%{transform:translate3d(-50%,0,0)}}
+  .marquee-track{display:inline-flex;gap:4rem;animation:marquee 40s linear infinite;white-space:nowrap}
+
+  /* Scanning line */
+  @keyframes scanline{0%{top:0%}100%{top:100%}}
+  .scanline{position:absolute;left:0;right:0;height:2px;
+    background:linear-gradient(90deg,transparent,var(--brand) 50%,transparent);
+    animation:scanline 1.6s ease-in-out infinite alternate;pointer-events:none}
+
+  .dropzone{transition:border-color .2s ease,background-color .2s ease,transform .2s ease}
+  .dropzone:hover,.dropzone.dragging{border-color:var(--brand);background:#F8F9FB}
+
+  .selection-box{position:absolute;border:2px solid var(--brand);
+    background:rgba(0,47,167,.15);box-shadow:0 0 0 1px rgba(255,255,255,.6) inset;pointer-events:none}
+  .selection-handle{position:absolute;width:8px;height:8px;background:var(--brand);border:1px solid #fff}
+
+  .btn-sharp{border-radius:2px;transition:background-color .18s ease,color .18s ease,transform .18s ease,border-color .18s ease}
+  .btn-sharp:active{transform:translateY(1px)}
+
+  .section-index{font-family:"JetBrains Mono",monospace;font-size:.75rem;
+    letter-spacing:.2em;text-transform:uppercase;color:var(--brand);font-weight:600}
+
+  .spin{animation:spin 1s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  [hidden]{display:none!important}
+</style>
+</head>
+<body class="bg-white text-[#0A0A0A]">
+
+<!-- ============== HEADER ============== -->
+<header class="sticky top-0 z-40 backdrop-blur-xl bg-white/75 border-b border-slate-200">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 h-16 flex items-center justify-between">
+    <a href="#top" class="flex items-center gap-2">
+      <span class="w-8 h-8 bg-[#002FA7] flex items-center justify-center text-white font-bold">⌫</span>
+      <span class="font-display text-lg font-black tracking-tighter">DELOGO<span class="text-[#002FA7]">.</span></span>
+      <span class="font-mono text-[10px] tracking-[0.25em] uppercase text-slate-500 ml-2 hidden sm:block">v1.0 / free</span>
+    </a>
+    <nav class="flex items-center gap-6 text-sm">
+      <a href="#tool" class="hidden sm:block text-slate-700 hover:text-[#002FA7]">Eraser</a>
+      <a href="#how"  class="hidden sm:block text-slate-700 hover:text-[#002FA7]">How it works</a>
+      <a href="#faq"  class="hidden sm:block text-slate-700 hover:text-[#002FA7]">FAQ</a>
+      <a href="#tool" class="btn-sharp bg-[#002FA7] hover:bg-[#00227A] text-white px-4 py-2 text-sm font-semibold">Start free</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============== HERO ============== -->
+<section id="top" class="relative overflow-hidden border-b border-slate-200">
+  <div class="absolute inset-x-0 top-0 pt-6 select-none pointer-events-none overflow-hidden">
+    <div class="marquee-track font-display text-[18vw] leading-none font-black tracking-tighter text-slate-100">
+      <span>NO LOGO. NO WATERMARK. NO SIGN-UP.</span>
+      <span>NO LOGO. NO WATERMARK. NO SIGN-UP.</span>
+    </div>
+  </div>
+
+    <div class="relative max-w-7xl mx-auto px-6 lg:px-10 pt-24 pb-20 lg:pt-36 lg:pb-28">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+      <div class="lg:col-span-8">
+        <div class="flex items-center gap-3 mb-6">
+          <span class="section-index">001 / Erase</span>
+          <span class="h-px w-16 bg-slate-300"></span>
+          <span class="font-mono text-[10px] uppercase tracking-[0.25em] text-slate-500">Free · Browser-based</span>
+        </div>
+        <h1 class="font-display text-4xl sm:text-5xl lg:text-7xl font-black tracking-tighter leading-[0.9]">
+          Erase any logo <br class="hidden sm:block"/>from any video.<span class="text-[#002FA7]">_</span>
+        </h1>
+        <p class="mt-8 max-w-xl text-base lg:text-lg text-slate-600 leading-relaxed">
+          Remove watermarks, channel logos, timecodes and stickers from videos in seconds.
+          Draw a box. We erase. Pixel-clean output, no account required, ever.
+        </p>
+        <div class="mt-10 flex flex-wrap items-center gap-4">
+          <a href="#tool" class="btn-sharp inline-flex items-center gap-2 bg-[#002FA7] hover:bg-[#00227A] text-white px-7 py-4 font-semibold">Start erasing →</a>
+          <a href="#how"  class="btn-sharp inline-flex items-center gap-2 border border-[#0A0A0A] hover:bg-[#0A0A0A] hover:text-white px-7 py-4 font-semibold">See how it works</a>
+        </div>
+        <div class="mt-12 grid grid-cols-3 max-w-lg gap-4">
+          <div class="border-l-2 border-[#002FA7] pl-3">
+            <div class="font-display text-2xl font-black mt-1">&lt; 60s</div>
+            <div class="text-xs text-slate-500 mt-0.5">Avg. process</div>
+          </div>
+          <div class="border-l-2 border-[#002FA7] pl-3">
+            <div class="font-display text-2xl font-black mt-1">100%</div>
+            <div class="text-xs text-slate-500 mt-0.5">Private</div>
+          </div>
+          <div class="border-l-2 border-[#002FA7] pl-3">
+            <div class="font-display text-2xl font-black mt-1">HD/4K</div>
+            <div class="text-xs text-slate-500 mt-0.5">Output</div>
+          </div>
+        </div>
+      </div>
+      <div class="lg:col-span-4 lg:pt-2">
+        <div class="border border-[#0A0A0A] bg-white">
+          <div class="border-b border-slate-200 px-5 py-3 flex items-center justify-between">
+            <span class="font-mono text-[10px] uppercase tracking-[0.25em] text-slate-500">spec.txt</span>
+            <div class="flex gap-1">
+              <span class="w-2 h-2 bg-[#FFCC00]"></span>
+              <span class="w-2 h-2 bg-[#FF3B30]"></span>
+              <span class="w-2 h-2 bg-[#002FA7]"></span>
+            </div>
+          </div>
+          <ul class="p-5 space-y-3 font-mono text-xs">
+            <li class="flex justify-between"><span class="text-slate-500">format</span><span>mp4 / mov / webm / mkv</span></li>
+            <li class="flex justify-between"><span class="text-slate-500">max_size</span><span>200 MB</span></li>
+            <li class="flex justify-between"><span class="text-slate-500">methods</span><span>delogo · blur · pixelate</span></li>
+            <li class="flex justify-between"><span class="text-slate-500">output</span><span>H.264 mp4 — faststart</span></li>
+            <li class="flex justify-between"><span class="text-slate-500">auth</span><span>none</span></li>
+            <li class="flex justify-between"><span class="text-slate-500">price</span><span class="text-[#002FA7] font-bold">$0.00</span></li>
+          </ul>
+        </div>
+        <p class="mt-4 font-mono text-[10px] uppercase tracking-[0.25em] text-slate-500">↳ runs entirely on our infra. files auto-purge.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== TOOL ============== -->
+<section id="tool" class="border-b border-slate-200 bg-white">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 py-20 lg:py-28">
+    <div class="flex items-center gap-3 mb-3">
+      <span class="section-index">002 / Tool</span>
+      <span class="h-px w-16 bg-slate-300"></span>
+    </div>
+    <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-black tracking-tighter">The Eraser.</h2>
+    <p class="mt-3 max-w-xl text-slate-600">Drop your file, select the logo region, choose a method. Done.</p>
+
+    <ol id="stepper" class="mt-10 grid grid-cols-4 border border-slate-200">
+      <li data-step="upload"     class="px-4 py-3 border-r border-slate-200 font-mono text-[11px] uppercase tracking-[0.2em]"><b>01</b> upload</li>
+      <li data-step="select"     class="px-4 py-3 border-r border-slate-200 font-mono text-[11px] uppercase tracking-[0.2em]"><b>02</b> select</li>
+      <li data-step="processing" class="px-4 py-3 border-r border-slate-200 font-mono text-[11px] uppercase tracking-[0.2em]"><b>03</b> processing</li>
+      <li data-step="result"     class="px-4 py-3 font-mono text-[11px] uppercase tracking-[0.2em]"><b>04</b> result</li>
+    </ol>
+
+    <div class="mt-8 border border-[#0A0A0A] bg-white">
+      <!-- Upload View -->
+      <div id="view-upload" class="p-6 lg:p-12">
+        <div id="dropzone" class="dropzone cursor-pointer border-2 border-dashed border-slate-300 px-6 py-20 lg:py-28 flex flex-col items-center justify-center text-center">
+          <input id="fileInput" type="file" accept="video/*" hidden />
+          <div id="uploadIdle">
+            <div class="text-4xl text-[#002FA7]">⬆</div>
+            <p class="mt-5 font-display text-2xl lg:text-3xl font-black tracking-tighter">Drop a video here</p>
+            <p class="mt-2 text-slate-500">or click to browse — mp4, mov, webm, mkv up to 200MB</p>
+            <button type="button" class="btn-sharp mt-7 inline-flex items-center gap-2 bg-[#0A0A0A] hover:bg-[#002FA7] text-white px-6 py-3 font-semibold">Choose video</button>
+          </div>
+          <div id="uploadBusy" hidden>
+            <div class="text-3xl text-[#002FA7] spin">↻</div>
+            <p class="mt-5 font-display text-2xl font-bold">Uploading… <span id="upPct">0</span>%</p>
+            <div class="w-80 max-w-full h-1 bg-slate-200 mt-4"><div id="upBar" class="h-full bg-[#002FA7]" style="width:0%"></div></div>
+          </div>
+        </div>
+        <p class="mt-4 font-mono text-[10px] uppercase tracking-[0.25em] text-slate-500">↳ Files are processed on our server, then auto-purged.</p>
+      </div>
+
+      <!-- Select View -->
+      <div id="view-select" hidden class="p-6 lg:p-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <div class="lg:col-span-8">
+            <p class="font-mono text-[10px] uppercase tracking-[0.25em] text-slate-500 mb-3">↳ click & drag to mark the logo region</p>
+            <div id="canvasWrap" class="relative select-none border border-[#0A0A0A] bg-slate-100 cursor-crosshair">
+              <img id="thumb" alt="" class="absolute inset-0 w-full h-full object-cover pointer-events-none" />
+              <div id="selectionBox" class="selection-box" hidden>
+                <span class="selection-handle" style="left:-4px;top:-4px"></span>
+                <span class="selection-handle" style="right:-4px;top:-4px"></span>
+                <span class="selection-handle" style="left:-4px;bottom:-4px"></span>
+                <span class="selection-handle" style="right:-4px;bottom:-4px"></span>
+              </div>
+              <div id="selectionHint" class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div class="bg-white/95 border border-[#0A0A0A] px-5 py-3 font-mono text-xs uppercase tracking-[0.2em]">▣ Drag to select</div>
+              </div>
+            </div>
+            <div class="mt-3 font-mono text-[11px] text-slate-500 grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <span id="metaW"></span><span id="metaH"></span><span id="metaD"></span><span id="metaName" class="truncate"></span>
+            </div>
+          </div>
+          <aside class="lg:col-span-4">
+            <h3 class="font-display text-xl font-bold tracking-tight">Method</h3>
+            <div id="methods" class="mt-4 space-y-2">
+              <label data-m="delogo"   class="block cursor-pointer border p-4 border-[#002FA7] bg-[#F1F5F9]"><input type="radio" name="m" class="mr-2 accent-[#002FA7]" checked /> <b>Delogo</b> <span class="text-xs text-slate-500 block">Best for static logos.</span></label>
+              <label data-m="blur"     class="block cursor-pointer border p-4 border-slate-200 hover:border-[#0A0A0A]"><input type="radio" name="m" class="mr-2 accent-[#002FA7]"/> <b>Gaussian Blur</b> <span class="text-xs text-slate-500 block">Heavy blur over the region.</span></label>
+              <label data-m="pixelate" class="block cursor-pointer border p-4 border-slate-200 hover:border-[#0A0A0A]"><input type="radio" name="m" class="mr-2 accent-[#002FA7]"/> <b>Pixelate</b> <span class="text-xs text-slate-500 block">Mosaic effect.</span></label>
+            </div>
+            <div class="mt-6 flex flex-col gap-3">
+              <button id="eraseBtn" class="btn-sharp bg-[#002FA7] hover:bg-[#00227A] text-white px-6 py-4 font-semibold">✦ Erase logo</button>
+              <button id="clearBtn" class="btn-sharp border border-[#0A0A0A] hover:bg-[#0A0A0A] hover:text-white px-6 py-3 font-semibold">↻ Clear selection</button>
+              <button id="backBtn"  class="text-sm text-slate-500 hover:text-[#002FA7] mt-1">← Use a different video</button>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <!-- Processing View -->
+      <div id="view-processing" hidden class="p-6 lg:p-12">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <div class="lg:col-span-8">
+            <div id="procWrap" class="relative border border-[#0A0A0A] overflow-hidden">
+              <img id="procThumb" class="absolute inset-0 w-full h-full object-cover" />
+              <div id="procRegion" class="absolute border-2 border-[#FFCC00] bg-[#FFCC00]/20"></div>
+              <div class="scanline"></div>
+            </div>
+          </div>
+          <div class="lg:col-span-4">
+            <span class="section-index">processing</span>
+            <h3 class="font-display text-3xl font-black tracking-tighter mt-2">Erasing logo<span class="text-[#002FA7]">…</span></h3>
+            <p class="text-slate-600 mt-3">FFmpeg is reconstructing pixels. Hang tight — usually under a minute.</p>
+          </div>
+        </div>
+            </div>
+
+         <!-- Result View -->
+      <div id="view-result" hidden class="p-6 lg:p-12">
+        <div class="flex items-center gap-3 mb-6">
+          <span class="text-2xl text-[#002FA7]">✓</span>
+          <h3 class="font-display text-2xl lg:text-3xl font-black tracking-tighter">Done. Logo erased.</h3>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="border border-slate-200">
+            <div class="px-4 py-2 font-mono text-[10px] uppercase tracking-[0.25em] bg-slate-50 text-slate-600">Before — original</div>
+            <div class="bg-black"><video id="beforeVideo" controls class="w-full block"></video></div>
+          </div>
+          <div class="border border-[#002FA7]">
+            <div class="px-4 py-2 font-mono text-[10px] uppercase tracking-[0.25em] bg-[#002FA7] text-white">After — <span id="afterMethod"></span></div>
+            <div class="bg-black"><video id="afterVideo" controls autoplay muted loop class="w-full block"></video></div>
+          </div>
+        </div>
+        <div class="mt-8 flex flex-wrap gap-4">
+          <a id="downloadLink" class="btn-sharp inline-flex items-center gap-2 bg-[#002FA7] hover:bg-[#00227A] text-white px-7 py-4 font-semibold">⬇ Download mp4</a>
+          <button id="resetBtn" class="btn-sharp border border-[#0A0A0A] hover:bg-[#0A0A0A] hover:text-white px-7 py-4 font-semibold">↻ Erase another</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== HOW IT WORKS ============== -->
+<section id="how" class="border-b border-slate-200 bg-[#F8F9FA]">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 py-20 lg:py-28">
+    <div class="flex items-center gap-3 mb-3"><span class="section-index">003 / Process</span><span class="h-px w-16 bg-slate-300"></span></div>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+      <div class="lg:col-span-5">
+        <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-black tracking-tighter">Three steps.<br/>Zero friction.</h2>
+        <p class="mt-5 max-w-md text-slate-600">No editing skills, no plugins, no installs.</p>
+      </div>
+      <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="border border-[#0A0A0A] bg-white p-6"><span class="font-mono text-xs text-[#002FA7]">01</span><h3 class="font-display text-xl font-bold mt-8">Drop your video</h3><p class="text-sm text-slate-600 mt-2">Upload mp4/mov/webm up to 200MB.</p></div>
+        <div class="border border-[#0A0A0A] bg-white p-6"><span class="font-mono text-xs text-[#002FA7]">02</span><h3 class="font-display text-xl font-bold mt-8">Mark the logo</h3><p class="text-sm text-slate-600 mt-2">Click and drag a box over it.</p></div>
+        <div class="border border-[#0A0A0A] bg-white p-6"><span class="font-mono text-xs text-[#002FA7]">03</span><h3 class="font-display text-xl font-bold mt-8">Get clean output</h3><p class="text-sm text-slate-600 mt-2">Download the cleaned mp4 instantly.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FEATURES ============== -->
+<section id="features" class="border-b border-slate-200">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 py-20 lg:py-28">
+    <div class="flex items-center gap-3 mb-3"><span class="section-index">004 / Why</span><span class="h-px w-16 bg-slate-300"></span></div>
+    <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-black tracking-tighter max-w-2xl">Built lean. Engineered serious.</h2>
+    <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+      <div class="p-8 border-b lg:border-b lg:border-r border-slate-200"><h3 class="font-display text-xl font-bold">100% Free</h3><p class="text-sm text-slate-600 mt-2">No paywalls. Forever.</p></div>
+      <div class="p-8 border-b lg:border-b lg:border-r border-slate-200"><h3 class="font-display text-xl font-bold">No sign-up</h3><p class="text-sm text-slate-600 mt-2">Open. Erase. Leave.</p></div>
+      <div class="p-8 border-b lg:border-b border-slate-200"><h3 class="font-display text-xl font-bold">Privacy-first</h3><p class="text-sm text-slate-600 mt-2">Files auto-purge.</p></div>
+      <div class="p-8 border-b lg:border-r lg:border-b-0 border-slate-200"><h3 class="font-display text-xl font-bold">Multi-format</h3><p class="text-sm text-slate-600 mt-2">mp4, mov, webm, mkv.</p></div>
+      <div class="p-8 border-b lg:border-r lg:border-b-0 border-slate-200"><h3 class="font-display text-xl font-bold">Server-rendered</h3><p class="text-sm text-slate-600 mt-2">Broadcast-quality H.264.</p></div>
+      <div class="p-8"><h3 class="font-display text-xl font-bold">Pixel-clean</h3><p class="text-sm text-slate-600 mt-2">Real reconstruction, not just blur.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FAQ ============== -->
+<section id="faq" class="border-b border-slate-200">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 py-20 lg:py-28">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+      <div class="lg:col-span-4">
+        <div class="flex items-center gap-3 mb-3"><span class="section-index">006 / FAQ</span><span class="h-px w-16 bg-slate-300"></span></div>
+        <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-black tracking-tighter">Stuff you'll<br/>probably ask.</h2>
+      </div>
+      <div class="lg:col-span-8 border-t border-slate-200" id="faqList">
+        <!-- populated by JS -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FOOTER ============== -->
+<footer class="bg-slate-50 border-t border-slate-200">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 pt-24 pb-12">
+    <h2 class="font-display text-5xl sm:text-6xl lg:text-8xl font-black tracking-tighter leading-[0.85]">
+      Erase the logo.<br/>Keep the story<span class="text-[#002FA7]">.</span>
+    </h2>
+    <a href="#tool" class="btn-sharp mt-10 inline-flex bg-[#002FA7] hover:bg-[#00227A] text-white px-8 py-4 font-semibold">Start now — free</a>
+    <div class="mt-20 pt-6 border-t border-slate-200 flex flex-wrap items-center justify-between gap-4 font-mono text-[11px] uppercase tracking-[0.2em] text-slate-500">
+      <span><b class="text-[#0A0A0A]">DELOGO.</b> — ai video logo eraser</span>
+      <span>© 2026 · v1.0 · made with ffmpeg</span>
+    </div>
+    </div>
+</footer>
+
+<script>
+/* ===== CONFIG ===== */
+const API_BASE = ""; // <-- e.g. "https://your-backend.com"  (leave "" to disable network calls)
+
+/* ===== State ===== */
+let video = null, region = null, method = "delogo", resultId = null;
+const $ = id => document.getElementById(id);
+const views = ["upload","select","processing","result"];
+function go(step){
+  views.forEach(v => $("view-"+v).hidden = (v !== step));
+  document.querySelectorAll("#stepper li").forEach((li,i)=>{
+    const s = li.dataset.step;
+    li.className = "px-4 py-3 border-r last:border-r-0 border-slate-200 font-mono text-[11px] uppercase tracking-[0.2em] " +
+      (s===step ? "bg-[#002FA7] text-white" : (views.indexOf(s)<views.indexOf(step) ? "bg-slate-50 text-slate-700" : "bg-white text-slate-400"));
+  });
+}
+go("upload");
+
+/* ===== FAQ ===== */
+const QA = [
+  ["Is this really free?","Yes. No watermarks, no email, no upgrade prompts."],
+  ["What's the maximum file size?","200MB per upload."],
+  ["Do you store my files?","No, files auto-purge after processing."],
+  ["delogo vs blur vs pixelate?","Delogo reconstructs from neighbours, blur is gaussian, pixelate is mosaic."],
+  ["Moving logos?","Static positions only for now. Tracking is on the roadmap."],
+  ["Output format?","H.264 mp4 with faststart."],
+];
+$("faqList").innerHTML = QA.map(([q,a],i)=>`
+  <div class="border-b border-slate-200">
+    <button data-i="${i}" class="faqQ w-full text-left flex items-center justify-between py-6 group">
+      <span class="font-display text-lg sm:text-xl font-semibold tracking-tight group-hover:text-[#002FA7]">${q}</span>
+      <span class="w-8 h-8 flex items-center justify-center border border-[#0A0A0A] group-hover:bg-[#002FA7] group-hover:text-white">+</span>
+    </button>
+    <p data-a="${i}" class="pb-6 text-slate-600 max-w-2xl leading-relaxed" hidden>${a}</p>
+  </div>`).join("");
+document.querySelectorAll(".faqQ").forEach(btn=>btn.addEventListener("click",()=>{
+  const i = btn.dataset.i;
+  document.querySelectorAll("[data-a]").forEach(p=>{ if(p.dataset.a!==i) p.hidden = true; });
+  const t = document.querySelector(`[data-a="${i}"]`); t.hidden = !t.hidden;
+}));
+
+/* ===== Upload ===== */
+const dz = $("dropzone"), fi = $("fileInput");
+dz.addEventListener("click", ()=>fi.click());
+dz.addEventListener("dragover", e=>{e.preventDefault();dz.classList.add("dragging")});
+dz.addEventListener("dragleave", ()=>dz.classList.remove("dragging"));
+dz.addEventListener("drop", e=>{e.preventDefault();dz.classList.remove("dragging");onFile(e.dataTransfer.files[0])});
+fi.addEventListener("change", e=>onFile(e.target.files[0]));
+
+async function onFile(file){
+  if(!file) return;
+  if(!/^video\//.test(file.type) && !/\.(mp4|mov|webm|mkv|m4v|avi)$/i.test(file.name)) return alert("Pick a video file.");
+  if(file.size > 200*1024*1024) return alert("Max 200MB.");
+  if(!API_BASE){ alert("Set API_BASE in <script> to your backend URL to use the eraser."); return; }
+  $("uploadIdle").hidden = true; $("uploadBusy").hidden = false;
+  const fd = new FormData(); fd.append("file", file);
+  try{
+    const xhr = new XMLHttpRequest();
+    xhr.upload.onprogress = e => { if(e.lengthComputable){ const p = Math.round(e.loaded/e.total*100); $("upPct").textContent=p; $("upBar").style.width=p+"%"; }};
+    const res = await new Promise((resolve,reject)=>{
+      xhr.onload = ()=> xhr.status<300 ? resolve(JSON.parse(xhr.responseText)) : reject(JSON.parse(xhr.responseText).detail || "Upload failed");
+      xhr.onerror = ()=> reject("Network error");
+      xhr.open("POST", API_BASE+"/api/video/upload"); xhr.send(fd);
+    });
+    video = res; openSelect();
+  }catch(err){ alert(err); $("uploadIdle").hidden=false; $("uploadBusy").hidden=true; }
+}
+
+/* ===== Select region ===== */
+function openSelect(){
+  $("thumb").src = `${API_BASE}/api/video/thumbnail/${video.video_id}`;
+  $("canvasWrap").style.aspectRatio = `${video.width}/${video.height}`;
+  $("metaW").textContent = "w: "+video.width+"px";
+  $("metaH").textContent = "h: "+video.height+"px";
+  $("metaD").textContent = "d: "+video.duration.toFixed(1)+"s";
+  $("metaName").textContent = video.filename;
+  $("selectionBox").hidden = true; $("selectionHint").hidden = false;
+  go("select");
+  }
+let drawing=false, origin=null, box=null;
+const wrap = $("canvasWrap"), sel = $("selectionBox");
+function pt(e){ const r=wrap.getBoundingClientRect(); const t=e.touches?.[0]||e;
+  return { x: Math.max(0,Math.min(t.clientX-r.left, r.width)), y: Math.max(0,Math.min(t.clientY-r.top, r.height)) }; }
+function setBox(b){ box=b; sel.style.left=b.x+"px"; sel.style.top=b.y+"px"; sel.style.width=b.w+"px"; sel.style.height=b.h+"px"; sel.hidden=false; $("selectionHint").hidden=true; }
+wrap.addEventListener("mousedown", e=>{drawing=true; origin=pt(e); setBox({x:origin.x,y:origin.y,w:0,h:0});});
+wrap.addEventListener("mousemove", e=>{ if(!drawing) return; const p=pt(e); setBox({x:Math.min(origin.x,p.x), y:Math.min(origin.y,p.y), w:Math.abs(p.x-origin.x), h:Math.abs(p.y-origin.y)});});
+window.addEventListener("mouseup", ()=>drawing=false);
+wrap.addEventListener("touchstart", e=>{drawing=true; origin=pt(e); setBox({x:origin.x,y:origin.y,w:0,h:0});});
+wrap.addEventListener("touchmove", e=>{ if(!drawing) return; const p=pt(e); setBox({x:Math.min(origin.x,p.x), y:Math.min(origin.y,p.y), w:Math.abs(p.x-origin.x), h:Math.abs(p.y-origin.y)});});
+wrap.addEventListener("touchend", ()=>drawing=false);
+
+document.querySelectorAll("#methods label").forEach(l=>l.addEventListener("click",()=>{
+  document.querySelectorAll("#methods label").forEach(x=>x.className="block cursor-pointer border p-4 border-slate-200 hover:border-[#0A0A0A]");
+  l.className="block cursor-pointer border p-4 border-[#002FA7] bg-[#F1F5F9]";
+  l.querySelector("input").checked = true;
+  method = l.dataset.m;
+}));
+$("clearBtn").addEventListener("click", ()=>{ sel.hidden=true; $("selectionHint").hidden=false; box=null; });
+$("backBtn").addEventListener("click", ()=>{ video=null; box=null; fi.value=""; $("uploadIdle").hidden=false; $("uploadBusy").hidden=true; go("upload"); });
+
+$("eraseBtn").addEventListener("click", async ()=>{
+  if(!box || box.w<8 || box.h<8) return alert("Draw a larger box first.");
+  const scale = video.width / wrap.clientWidth;
+  region = { x:Math.round(box.x*scale), y:Math.round(box.y*scale), w:Math.round(box.w*scale), h:Math.round(box.h*scale) };
+  $("procThumb").src = $("thumb").src;
+  $("procWrap").style.aspectRatio = `${video.width}/${video.height}`;
+  $("procRegion").style.left = (region.x/video.width*100)+"%";
+  $("procRegion").style.top  = (region.y/video.height*100)+"%";
+  $("procRegion").style.width = (region.w/video.width*100)+"%";
+  $("procRegion").style.height = (region.h/video.height*100)+"%";
+  go("processing");
+  try{
+    const res = await fetch(API_BASE+"/api/video/process",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({video_id:video.video_id,...region,method})});
+    if(!res.ok) throw (await res.json()).detail || "Failed";
+    const data = await res.json();
+    resultId = data.processed_id;
+    $("beforeVideo").src = `${API_BASE}/api/video/file/${video.video_id}`;
+    $("afterVideo").src  = `${API_BASE}/api/video/result/${resultId}`;
+    $("downloadLink").href = `${API_BASE}/api/video/download/${resultId}`;
+    $("afterMethod").textContent = method;
+    go("result");
+  }catch(err){ alert(err); go("select"); }
+});
+$("resetBtn").addEventListener("click", ()=>{ video=null; region=null; resultId=null; box=null; method="delogo"; fi.value=""; $("uploadIdle").hidden=false; $("uploadBusy").hidden=true; go("upload"); });
+</script>
 </body>
 </html>
+}
